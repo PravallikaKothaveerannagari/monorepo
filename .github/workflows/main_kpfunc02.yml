@@ -36,7 +36,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           mkdir -p package
-          cp -r ${AZURE_FUNCTIONAPP_PACKAGE_PATH}/* package/
+          cp -r ${AZURE_FUNCTIONAPP_PACKAGE_PATH} package/
           cp requirements.txt package/
           cd package
           zip -r ../release.zip .

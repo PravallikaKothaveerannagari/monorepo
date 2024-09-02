@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './backend/entrypoints/my-func' # Set this to the path to your Azure Function project
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './backend/entrypoint/my-func' # Set this to the path to your Azure Function project
   PYTHON_VERSION: '3.11' # Set this to the Python version to use
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
       - name: Zip artifact for deployment
         run: |
           mkdir -p package
-          cp -r ${AZURE_FUNCTIONAPP_PACKAGE_PATH} package/
+          cp -r ${AZURE_FUNCTIONAPP_PACKAGE_PATH}/* package/
           cp requirements.txt package/
           cd package
           zip -r ../release.zip .
@@ -68,7 +68,7 @@ jobs:
         id: deploy-to-function
         with:
           app-name: 'kpfunc02'
-          package: './backend/entrypoints/my-func' # Path inside the unzipped directory
+          package: './backend/entrypoint/my-func' # Path inside the unzipped directory
           scm-do-build-during-deployment: true
           enable-oryx-build: true
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C8CFC9684B2D4988A0215390B4337DCC }}
